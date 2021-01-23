@@ -1,0 +1,90 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<%- include('../_include/headByAdmin.ejs') %>
+<style>
+
+</style>
+</head>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+              <input type="text" id="loginName" name="loginName" 
+                placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+              <input type="text" id="password" name="password" placeholder="请输入" 
+                autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+              <input type="text" id="nickName" name="nickName" placeholder="请输入" 
+                autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../_include/commonJs.ejs') %>
+  <script src="static/plugins/md5/md5.js"></script>
+  <script>
+  document.getElementById("loginName").focus();
+  let user = {id: ''};
+  getUser();
+  async function getUser(){
+    const id = getQueryString('id');
+    if( id!='undefined' ){
+      const res = await MG.api.findUserById(id);
+      if(res.code == 1){
+        user = res.data;
+        document.getElementById('loginName').value = user.loginName;
+        document.getElementById('nickName').value = user.nickName;
+      }
+    }
+  }
+  async function save(){
+    var data = {
+      loginName: document.getElementById('loginName').value,
+      password: document.getElementById('password').value,
+      nickName: document.getElementById('nickName').value,
+      id: user.id
+    };
+    if( data.loginName.trim() == "" ){
+      layer.msg("请输入用户名");
+      return false;
+    }
+    if( data.password.trim() == "" && user.id == ''){
+      layer.msg("请输入密码");
+      return false;
+    }
+    if(data.password != ''){
+      data.password = hex_md5(data.password)
+    }
+    const res = await MG.api.saveUser(data);
+    
+    if( res.code == 1){
+      parent.getList();
+      parent.layer.close(parent.layer.getFrameIndex(window.name)); //关闭弹窗 
+    }else{
+      layer.msg(res.msg);
+      return false;
+    }
+    
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<div class="layui-carousel" id="newsIndex" lay-filter='newsIndex'>
+  <div carousel-item>
+    <% for( var i=0;i<carouses.length;i++){ %>
+        <div name='<%= carouses[i].name %>'>
+            <img class='carousesImg' src="<%= carouses[i].img %>">
+        </div>
+    <% } %>
+  </div>
+  <p id="txt">
+    <span id="carouselName">
+      <% if(carouses.length > 0 ){ %>
+       <%= carouses[0].name %>
+      <% } %>
+    </span>
+  </p>
+</div>

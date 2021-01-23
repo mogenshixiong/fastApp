@@ -1,0 +1,12 @@
+{
+    "port": "8888",
+    "host": "0.0.0.0",
+    "internetIp": "mogenshixiong.com",
+    "domain": "mogenshixiong.com",
+    "siteTitle":"摩根师兄",
+    "startup_open_url": false,
+    "index": "base/solr/list",
+    "bookMarkSetting": {
+        "chromePath": "C:\\Users\\LENOVO\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"
+    }
+}

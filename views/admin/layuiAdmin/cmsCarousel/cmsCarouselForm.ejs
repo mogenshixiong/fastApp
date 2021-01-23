@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%- include('../_include/headByAdmin.ejs') %>
+<style>
+
+</style>
+</head>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body layui-row layui-col-space10">
+        <div class="layui-col-md12">
+          <div class="layui-form-item">
+            <div class="layui-block">
+              <label class="layui-form-label">name</label>
+              <div class="layui-input-block">
+                <input type="text" id="name" name="name" 
+                  placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-block" style="margin-top: 10px;">
+              <label class="layui-form-label">img</label>
+              <div class="layui-input-block">
+                <input type="text" id="img" name="img" autocomplete="off" 
+                  style="background-color: #f0f0f0;"  
+                  class="layui-input layui-disabled" disabled readonly >
+              </div>
+              <div class="layui-input-block" style="margin-top: 10px;">
+                <div class="layui-upload">
+                  <button type="button" class="layui-btn" id="upload1">上传图片</button>
+                  <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="demo1" style="max-height: 200px;">
+                    <p id="demoText"></p>
+                  </div>
+                </div> 
+              </div>
+            </div>
+            <div class="layui-block">
+              <label class="layui-form-label">sort</label>
+              <div class="layui-input-block">
+                <input type="text" id="sort" name="sort" placeholder="请输入" 
+                  autocomplete="off" class="layui-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../_include/commonJs.ejs') %>
+  <script>
+  document.getElementById("name").focus();
+  let nav = {id: ''};
+  getCarousel();
+  async function getCarousel(){
+    const id = getQueryString('id');
+    if( id!='undefined' ){
+      const res = await MG.api.findCmsCarouseById(id);
+      if(res.code == 0){
+        nav = res.data;
+        document.getElementById('name').value = nav.name;
+        document.getElementById('img').value = nav.img;
+        document.getElementById('demo1').setAttribute('src', nav.img);
+        document.getElementById('sort').value = nav.sort;
+      }
+    }
+  }
+  async function save(){
+    var data = {
+      name: document.getElementById('name').value,
+      img: document.getElementById('img').value,
+      sort: document.getElementById('sort').value,
+      id: nav.id
+    };
+    if( data.name.trim() == "" ){
+      layer.msg("请输入name");
+      return false;
+    }
+    if( data.img.trim()== "" ){
+      layer.msg("请输入img");
+      return false;
+    }
+    if( data.sort.trim()== "" ){
+      layer.msg("请输入sort");
+      return false;
+    }
+    const res = await MG.api.saveCmsCarouseById(data);
+    
+    if( res.code == 0){
+      parent.getList();
+      parent.layer.close(parent.layer.getFrameIndex(window.name)); //关闭弹窗 
+    }else{
+      layer.msg(res.msg);
+      return false;
+    }
+  }
+
+  //普通图片上传
+  var uploadInst = layui.upload.render({
+    elem: '#upload1',
+    url: '/uploadCmsCarouse', //改成您自己的上传接口
+    accept: 'file', //普通文件
+    // size: 60, //限制文件大小，单位 KB
+    multiple: false,
+    exts: 'jpg|png', 
+    before: function(obj){
+      //预读本地文件示例，不支持ie8
+      obj.preview(function(index, file, result){
+        document.getElementById('demo1').setAttribute('src', result);//图片链接（base64）
+      });
+    },done: function(res){
+      //如果上传失败
+      if(res.code > 0){
+        return layer.msg('上传失败');
+      }
+      document.getElementById('img').value = res.path;
+      console.log(res.path);
+      layer.msg('上传成功');
+      //上传成功
+    },error: function(){
+      //演示失败状态，并实现重传
+      var demoText = document.getElementById('demoText');
+      demoText.innerHTML = '<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>';
+      demoText.querySelector('.demo-reload').onclick = function(){
+        uploadInst.upload();
+      };
+    }
+  });
+  </script>
+</body>
+</html>

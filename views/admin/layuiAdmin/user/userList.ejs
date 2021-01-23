@@ -1,0 +1,129 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<%- include('../_include/headByAdmin.ejs') %>
+<style>
+.layui-btn, .layui-edge, .layui-inline, img {
+  vertical-align: top !important;
+}
+</style>
+</head>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+        <div class="layui-form-item">
+          <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+              <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+              <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+              <select name="sex">
+                <option value="0">不限</option>
+                <option value="1">男</option>
+                <option value="2">女</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">
+              <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-card-body">
+        <div style="padding-bottom: 10px;">
+          <button class="layui-btn  layui-btn-sm">删除</button>
+          <button class="layui-btn  layui-btn-sm" onclick="openUserForm()">添加</button>
+        </div>
+        <table id="LAY-user-manage" lay-filter="LAY-user-manage"></table>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/html" id="table-handle">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" 
+      onclick='' lay-event="edit">
+      <i class="layui-icon layui-icon-edit"></i>编辑
+    </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">
+      <i class="layui-icon layui-icon-delete"></i>删除
+    </a>
+  </script>
+
+  <%- include('../_include/commonJs.ejs') %>
+  <script>
+  // 查询list
+  function getList(){
+    layui.table.render({
+      elem: '#LAY-user-manage',
+      height: 315,
+      method: 'post',
+      url: '/findUserByPage',
+      page: true,
+      cols: [[
+        {checkbox: true, fixed: 'left'},
+        {field: 'loginName', title: '登录名', width: 120, fixed: 'left'},
+        {field: 'jobNumber', title: '工号', width: 120},
+        {field: 'nickName', title: '昵称', width: 120},
+        {field: 'name', title: '姓名', width: 120},
+        {field: 'phone', title: '电话'},
+        {field: 'lastLogin_time', title: '最后登录时间', width: 200},
+        {field: 'status', title: '状态', width: 120, fixed: 'right'},
+        {title: '操作', width: 200, templet: '#table-handle', fixed: 'right'},
+      ]]
+    });
+  }
+  getList();
+
+  // 添加用户
+  function openUserForm(id){
+    layer.open({
+      type: 2,
+      title: '<span>新增用户</span>',
+      area: ['90%', '90%'], //宽高
+      offset: '20px',
+      content: ['/userForm?id='+id],
+      btn: ['保存','关闭'],
+      yes: function(index, layero){
+        //得到iframe页的窗口对象，执行iframe页的方法：
+        var iframeWin = window[layero.find('iframe')[0]['name']].save(); 
+      },
+    });
+  }
+
+  //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+  layui.table.on('tool(LAY-user-manage)', function(obj){
+    var data = obj.data //获得当前行数据
+    ,layEvent = obj.event; //获得 lay-event 对应的值
+    if(layEvent === 'del'){
+      layer.confirm('是否确认删除用户：'+data.loginName, {icon: 3, title:'提示'}, function(index){
+        delUser(data.id, index);
+      });
+    }else if( layEvent==='edit'){
+      openUserForm(data.id);
+    }
+  });
+
+  async function delUser(id, index){
+    const res = await MG.api.deleteUserById(id);
+    getList();
+    layer.close(index);
+  }
+  </script>
+</body>
+</html>

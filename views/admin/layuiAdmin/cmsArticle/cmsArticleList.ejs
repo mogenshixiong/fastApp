@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%- include('../_include/headByAdmin.ejs') %>
+<style>
+.layui-form-label{
+  width: 50px;
+}
+.layui-input-block{
+  margin-left: 70px;
+}
+.layui-form-item{
+  margin-bottom: 1px;
+}
+.layui-input{
+  height: 30px;
+}
+.layui-btn{
+  height: 30px;
+  line-height: 30px;
+}
+</style>
+</head>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-header">
+        文章管理
+      </div>
+      <div class="layui-card-body layui-row layui-col-space10">
+        <div class="layui-col-md12">
+          <form class="layui-form" action="" lay-filter="search-form">
+            <div class="layui-form-item">
+              <label class="layui-form-label">栏目：</label>
+              <div class="layui-input-block" id='categoryRadios'>
+                <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">分类：</label>
+              <div class="layui-input-block" id='categoryTypeRadios'>
+                <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label" style="padding: 5px 15px;">查询：</label>
+              <div class="layui-input-block">
+                <input type="text" name="title" lay-verify="title" autocomplete="off" 
+                  style="width: 200px;display: inline;" placeholder="请输入标题" class="layui-input">
+                <input type="text" name="title" lay-verify="title" autocomplete="off" 
+                  style="width: 200px;display: inline;" placeholder="请输入标题" class="layui-input">
+                <input type="text" name="title" lay-verify="title" autocomplete="off" 
+                  style="width: 200px;display: inline;" placeholder="请输入标题" class="layui-input">
+                <button class="layui-btn" data-type="reload" style="vertical-align: top;">搜索</button>
+              </div>
+            </div>
+          </form>
+          <table id="LAY-cmsNav-manage" lay-filter="LAY-cmsNav-manage"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <button class="layui-btn layui-btn-sm" lay-event="add">发布文章</button>
+    </div>
+  </script>
+  <script type="text/html" id="table-handle">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">
+      <i class="layui-icon layui-icon-edit"></i>编辑
+    </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">
+      <i class="layui-icon layui-icon-delete"></i>删除
+    </a>
+  </script>
+  <%- include('../_include/commonJs.ejs') %>
+  <script>
+  init();
+  var categoryTypeList;
+  function init(){
+    getList();
+    findAllCmsCategoryAndCmsCategoryType();
+  }
+  async function getList(){
+    layui.table.render({
+      elem: '#LAY-cmsNav-manage',
+      toolbar: '#toolbarDemo',
+      method: 'post',
+      page: true,
+      url: '/findCmsArticleByPage',
+      cols: [[
+        {type:'numbers', title: '#'},
+        {field: 'title', title: '标题'},
+        {field: 'keyword', title: '关键词'},
+        {field: 'summary', title: '摘要'},
+        {field: 'cover', title: '封面'},
+        {title: '操作', width: 200, templet: '#table-handle'},
+      ]]
+    });
+  }
+  layui.table.on('toolbar(LAY-cmsNav-manage)', function(obj){
+    var checkStatus = layui.table.checkStatus(obj.config.id);
+    switch(obj.event){
+      case 'add':
+        openForm();
+      break;
+    };
+  });
+  //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+  layui.table.on('tool(LAY-cmsNav-manage)', function(obj){
+    var data = obj.data //获得当前行数据
+    ,layEvent = obj.event; //获得 lay-event 对应的值
+    if(layEvent === 'del'){
+      layer.confirm('是否确认删除文章：'+data.title, {icon: 3, title:'提示'}, function(index){
+        del(data.id, index);
+      });
+    }else if( layEvent==='edit'){
+      openForm(data.id);
+    }
+  });
+
+  //加载查询条件的栏目和分类
+  async function findAllCmsCategoryAndCmsCategoryType(){
+    const categoryList = await MG.api.findAllCmsCategory();
+    categoryTypeList = await MG.api.findAllCmsCategoryType();
+    if(categoryList.code == categoryTypeList.code && categoryTypeList.code ==  MG.const.resCode.SUCCESS){
+      initSearchRadioHtml(categoryList.data);
+    }
+  }
+  //渲染栏目
+  function initSearchRadioHtml(categorys){
+    var categoryRadios = `<input type="radio" name="category" checked="" value="" title="全部" lay-filter="categoryRadio">`;
+    for( var i=0;i<categorys.length;i++){
+      categoryRadios += `<input type="radio" name="category" 
+        dataId="${categorys[i].id}"
+        lay-filter="categoryRadio"
+        value="${categorys[i].url}" title="${categorys[i].name}">`;
+    }
+    document.getElementById('categoryRadios').innerHTML = categoryRadios;
+    initCategoryTypesRadioHtml();
+  }
+  //渲染分类
+  function initCategoryTypesRadioHtml(categoryId){
+    var categoryTypes = categoryTypeList.data;
+    var categoryTypeRadios = `<input type="radio" name="categoryType" checked="" value="" title="全部">`;
+    for( var i=0;i<categoryTypes.length;i++){
+      if(categoryTypes[i].category_id == categoryId){
+        categoryTypeRadios += `<input type="radio" name="categoryType" 
+          value="${categoryTypes[i].url}" title="${categoryTypes[i].name}">`;
+      }
+    }
+    document.getElementById('categoryTypeRadios').innerHTML = categoryTypeRadios;
+    layui.form.render('radio', 'search-form');
+  }
+  //点击栏目时重新渲染分类
+  layui.form.on('radio(categoryRadio)', function(data){
+    initCategoryTypesRadioHtml(data.elem.getAttribute("dataId"))
+  }); 
+  // 文章form弹出
+  function openForm(id){
+    layer.full(layer.open({
+      type: 2,
+      title: '<span>发布文章</span>',
+      area: ['100%', '100%'], //宽高
+      offset: '20px',
+      content: ['/cmsArticleForm?id='+id],
+      btn: ['保存','关闭'],
+      yes: function(index, layero){
+        //得到iframe页的窗口对象，执行iframe页的方法：
+        var iframeWin = window[layero.find('iframe')[0]['name']].save(); 
+      },
+    }));
+  }
+  async function del(id, index){
+    const res = await MG.api.deleteCmsArticleById(id);
+    getList();
+    layer.close(index);
+  }
+  </script>
+</body>
+</html>

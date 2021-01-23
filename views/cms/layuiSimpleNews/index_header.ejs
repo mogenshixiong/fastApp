@@ -1,0 +1,59 @@
+<div class="news-header">
+    <div class="layui-container">
+      <a id="logo" href="index.html">
+        <img src="static/plugins/layuiSimpleNews/demoImg/logo.png">
+      </a>
+      <ul class="layui-nav header-nav close">
+        <% for( var i=0;i<navs.length;i++){ %>
+          <% if(i==0) { %>
+            <li class="layui-nav-item layui-this">
+              <a href="<%= navs[i].url %>"><%= navs[i].name %></a>
+            </li>
+          <% }else if(i<6 ){ %> 
+          <li class="layui-nav-item ">
+            <a href="<%= navs[i].url %>"><%= navs[i].name %></a>
+          </li>
+          <% } %>
+        <% } %>
+  
+        <% if(navs.length > 6 ){ %>
+          <li class="layui-nav-item more">
+            <a href="javaScript:;">更多</a>
+            <dl class="layui-nav-child">
+              <% for( var i=6;i<navs.length;i++){ %>
+                <dd>
+                  <a class="hida" href="<%= navs[i].url %>"><%= navs[i].name %></a>
+                  <% if( navs[i+1] ){ %>
+                    <a class="hida" href="<%= navs[i+1].url %>"><%= navs[i+1].name %></a>
+                    <% i++ %>
+                  <% } %>
+                </dd>
+              <% } %>
+            </dl>
+          </li>
+        <% } %>
+      </ul>
+      <button id="switch">
+        <span></span><span class="second"></span><span class="third"></span>
+      </button>
+      <div class="layui-form header-search">
+        <input type="text" placeholder="诺基亚" class="layui-input">
+      </div>
+      <div class="layui-form header-login">
+        <a href="/login">登入</a>
+        <a href=""><i class="layui-icon layui-icon-news-qq"></i></a>
+        <a href=""><i class="layui-icon layui-icon-news-wechat"></i></a>
+      </div>
+      <ul class="layui-nav header-login">
+        <li class="layui-nav-item">
+          <a href="javascript:;">
+            <img src="static/plugins/layuiSimpleNews/demoImg/header1.png" class="layui-nav-img">
+          </a>
+          <dl class="layui-nav-child">
+            <dd><a href="user.html">个人中心</a></dd>
+            <dd><a href="javascript:;">退出登录</a></dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+  </div>

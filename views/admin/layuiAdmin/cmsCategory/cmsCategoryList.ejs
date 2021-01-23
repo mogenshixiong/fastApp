@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%- include('../_include/headByAdmin.ejs') %>
+<style>
+.layuiadmin-card-text .layui-text-center {
+  height: auto;
+  min-height: 70px;
+  line-height: 35px;
+}
+.layui-btn.layui-btn {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+</style>
+</head>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-header">
+        栏目设置
+      </div>
+      <div class="layui-card-body layui-row layui-col-space10">
+        <blockquote class="layui-elem-quote">
+          <p>Tps:</p>
+          <p>文章发布时可选择发布至指定栏目或栏目下某分类，文章发布后访问栏目对应的url将可查看本栏目文章列表。</p>
+          <p>如：保存至科技(kj)栏目下的互联网(hlw)分类的文章，在前台可通过URL：/list/ke/hlw 进行访问。</p>
+          <p>文章并不于栏目直接关联，文章发布时只保存栏目的URL。</p>
+        </blockquote>
+        <div class="layui-row layui-col-space10" id="categoryList">
+          <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <button class="layui-btn layui-btn-sm" lay-event="add">新增</button>
+      <button class="layui-btn layui-btn-sm" lay-event="add">删除未引用图片</button>
+    </div>
+  </script>
+  <script type="text/html" id="table-handle">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">
+      <i class="layui-icon layui-icon-edit"></i>编辑
+    </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">
+      <i class="layui-icon layui-icon-delete"></i>删除
+    </a>
+  </script>
+  <%- include('../_include/commonJs.ejs') %>
+  <script>
+  getList();
+  async function getList(){
+    const categoryList = await MG.api.findAllCmsCategory();
+    const categoryTypeList = await MG.api.findAllCmsCategoryType();
+
+    if(categoryList.code != MG.const.resCode.SUCCESS){ return; }
+    let html = '';
+    for(var i=0;i<categoryList.data.length;i++){
+      html += intCategoryContentHtml(categoryList.data[i], categoryTypeList.data);
+    }
+    setCategoryListInnerHTML(html);
+  }
+  // 添加栏目
+  function openCmsCategoryForm(id, name){
+    layer.open({
+      type: 2,
+      title: '<span>'+(id==undefined?'新增':'编辑')+'栏目</span>',
+      area: ['400px', '300px'], //宽高
+      offset: '20px',
+      content: ['/cmsCategoryForm?id='+id],
+      btn: id==undefined?['保存','关闭']:['保存','删除','关闭'],
+      yes: function(index, layero){
+        //得到iframe页的窗口对象，执行iframe页的方法：
+        var iframeWin = window[layero.find('iframe')[0]['name']].save(); 
+      },
+      btn2: function(index, layero){
+        if(id!=undefined){
+          layer.confirm('是否确认删除栏目：'+ name, {icon: 3, title:'提示'}, function(index){
+            deleteCmsCategoryById(id, index);
+          });
+        }
+      }
+    });
+  }
+  //添加分类
+  function openCmsCategoryTypeForm(categoryId, categoryTypeId, categoryTypeName){
+    layer.open({
+      type: 2,
+      title: '<span>'+(categoryTypeId==undefined?'新增':'编辑')+'分类</span>',
+      area: ['400px', '300px'], //宽高
+      offset: '20px',
+      content: ['/cmsCategoryTypeForm?categoryTypeId='+categoryTypeId+'&categoryId='+categoryId],
+      btn: categoryTypeId==undefined?['保存', '关闭']:['保存', '删除', '关闭'],
+      yes: function(index, layero){
+        //得到iframe页的窗口对象，执行iframe页的方法：
+        var iframeWin = window[layero.find('iframe')[0]['name']].save(); 
+      },
+      btn2: function(index, layero){
+        if(categoryTypeId!=undefined){
+          layer.confirm('是否确认删除分类：'+ categoryTypeName, {icon: 3, title:'提示'}, function(index){
+            deleteCmsCategoryTypeById(categoryTypeId, index);
+          });
+        }
+      }
+    });
+  }
+  async function deleteCmsCategoryById(id, index){
+    const res = await MG.api.deleteCmsCategoryById(id);
+
+    if(res.code == MG.const.resCode.SUCCESS){
+      getList();
+      layer.close(index);
+    }else{
+      layer.close(index);
+      layer.msg(res.msg); // 有分类时不允许删除
+    }
+
+  }
+  async function deleteCmsCategoryTypeById(id, index){
+    const res = await MG.api.deleteCmsCategoryTypeById(id);
+    getList();
+    layer.close(index);
+  }
+
+  function intCategoryContentHtml(item, categoryTypeList){
+    var html =  `
+      <div class="layui-col-xs12 layui-col-sm4">
+        <div class="layuiadmin-card-text">
+          <div class="layui-text-top" style="background: url(static/img/db.svg) no-repeat;padding-left: 35px;">
+            <a onclick="openCmsCategoryForm('${item.id}','${item.name}')" style="cursor: pointer;">
+              ${item.sort}.${item.name}（${item.url}）
+            </a>
+          </div>
+          <p class="layui-text-center" id="categoryList_${item.id}">
+            ${initCategoryTypeList(item.id, categoryTypeList)}
+            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="openCmsCategoryTypeForm('${item.id}')">
+              <i class="layui-icon layui-icon-add-1"></i>添加分类
+            </button>
+          </p>
+        </div>
+      </div>
+    `;
+    return html;
+  }
+  function initCategoryTypeList(categoryId, categoryTypeList){
+    var html = '';
+    for(var i=0;i<categoryTypeList.length;i++){
+      if(categoryTypeList[i].category_id == categoryId){
+        html += `
+          <button class="layui-btn layui-btn-primary layui-btn-sm" 
+            onclick="openCmsCategoryTypeForm('${categoryId}', '${categoryTypeList[i].id}', '${categoryTypeList[i].name}')">
+            ${categoryTypeList[i].sort}.${categoryTypeList[i].name}（${categoryTypeList[i].url}）
+          </button>
+        `;
+      }
+    }
+    return html;
+  }
+  function setCategoryListInnerHTML(html){
+    html += `
+      <div class="layui-col-xs12 layui-col-sm3">
+        <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="openCmsCategoryForm()">
+          <i class="layui-icon layui-icon-add-1"></i>添加栏目
+        </button>
+      </div>
+    `;
+    document.getElementById('categoryList').innerHTML = html;
+  }
+  </script>
+</body>
+</html>

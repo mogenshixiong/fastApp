@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%- include('../_include/headByAdmin.ejs') %>
+<style>
+.layui-form-label{
+  width: 100px;
+}
+.layui-input-block {
+  margin-left: 130px;
+}
+</style>
+</head>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body layui-row layui-col-space10">
+        <div class="layui-col-md12">
+          <div class="layui-form-item">
+            <div class="layui-block">
+              <label class="layui-form-label">栏目名称</label>
+              <div class="layui-input-block">
+                <input type="text" id="name" name="name" 
+                  placeholder="请输入" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-block" style="margin-top: 10px;">
+              <label class="layui-form-label">栏目英文名称</label>
+              <div class="layui-input-block">
+                <input type="text" id="url" name="url" placeholder="请输入" 
+                  autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-block" style="margin-top: 10px;">
+              <label class="layui-form-label">排序</label>
+              <div class="layui-input-block">
+                <input type="text" id="sort" name="sort" placeholder="请输入" 
+                  autocomplete="off" class="layui-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../_include/commonJs.ejs') %>
+  <script>
+  document.getElementById("name").focus();
+  let category = {id: ''};
+  getCarousel();
+  async function getCarousel(){
+    const id = getQueryString('id');
+    if( id!='undefined' ){
+      const res = await MG.api.findCmsCategoryById(id);
+      if(res.code == 0){
+        category = res.data;
+        document.getElementById('name').value = category.name;
+        document.getElementById('url').value = category.url;
+        document.getElementById('sort').value = category.sort;
+      }
+    }
+  }
+  async function save(){
+    var data = {
+      name: document.getElementById('name').value,
+      url: document.getElementById('url').value,
+      sort: document.getElementById('sort').value,
+      id: category.id
+    };
+    if( data.name.trim() == "" ){
+      layer.msg("请输入栏目名称");
+      return false;
+    }
+    if( data.url.trim()== "" ){
+      layer.msg("请输入栏目英文名称");
+      return false;
+    }
+    if( data.sort.trim()== "" ){
+      layer.msg("请输入排序");
+      return false;
+    }
+    const res = await MG.api.saveCmsCategoryById(data);
+    
+    if( res.code == 0){
+      parent.getList();
+      parent.layer.close(parent.layer.getFrameIndex(window.name)); //关闭弹窗 
+    }else{
+      layer.msg(res.msg);
+      return false;
+    }
+  }
+  </script>
+</body>
+</html>

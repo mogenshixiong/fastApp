@@ -66,62 +66,23 @@
     <div class="layui-col-md8 index-list">
     	<h2>推荐新闻</h2>
     	<ul class="newsList">
-    		<li>
-    			<a class="img" href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/home_img4.jpg"></a><div class="txt">
-    				<a href="detail.html">20万存银行一年利息是多少？</a>
-    				<div class="label"><span>财经</span>财经网 <b>2018-06-07</b> <i class="layui-icon layui-icon-news-review1"></i>200</div>
-    				<p class="cont">20万存银行一年利息是多少？这是大家常思考的问题，那么利息到底是多少呢？这需要看你是存定期，还是存活期...</p>
-    			</div>
-    		</li>
-    		<li>
-    			<a class="img" href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/home_img5.jpg"></a><div class="txt">
-    				<a href="detail.html">杨紫说出了娱乐圈的黑幕，曝光了baby演技这么差为什么还片约不断</a>
-    				<div class="label"><span class="violet">娱乐</span>生活网 <b>2018-06-07</b> <i class="layui-icon layui-icon-news-review1"></i>200</div>
-    				<p class="cont">凭借着黄晓明妻子的身份，baby在内地娱乐圈发展得顺风顺水，很多人完全不理解为何就杨颖这样演技并不突出的...</p>
-    			</div>
-    		</li>
-    		<li>
-    			<a class="img" href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/home_img6.jpg"></a><div class="txt">
-    				<a href="detail.html">这才是柠檬水的正确喝法，原来这么多年都泡错了！</a>
-    				<div class="label"><span class="orange">生活</span>生活网 <b>2018-06-07</b> <i class="layui-icon layui-icon-news-review1"></i>200</div>
-    				<p class="cont">千万别去皮。食用前先用面粉搓洗，再用一把盐揉搓表皮，去除残留的农药和蜡，最后用清水冲洗两遍即可。将洗好...</p>
-    			</div>
-    		</li>
-    		<li class="newsList2">
-    			<div class="title"><a href="detail.html">王者荣耀走下坡路，七个原因告诉你为什么，句句在理</a></div>
-    			<a href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/home_img7.jpg"></a><a href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/home_img8.jpg"></a><a href="javascript:;" class="last"><img src="static/plugins/layuiSimpleNews/demoImg/home_img9.jpg"></a>
-    			<div class="label"><span class="red">游戏</span>游戏网 <b>2018-06-07</b> <i class="layui-icon layui-icon-news-review1"></i>200</div>
-    		</li>
-    		<li>
-    			<a class="img" href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/home_img4.jpg"></a><div class="txt">
-    				<a href="detail.html">20万存银行一年利息是多少？</a>
-    				<div class="label"><span>财经</span>财经网 <b>2018-06-07</b> <i class="layui-icon layui-icon-news-review1"></i>200</div>
-    				<p class="cont">20万存银行一年利息是多少？这是大家常思考的问题，那么利息到底是多少呢？这需要看你是存定期，还是存活期...</p>
-    			</div>
-    		</li>
-    		<li>
-    			<a class="img" href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/home_img5.jpg"></a><div class="txt">
-    				<a href="detail.html">杨紫说出了娱乐圈的黑幕，曝光了baby演技这么差为什么还片约 不断</a>
-    				<div class="label"><span class="violet">娱乐</span>生活网 <b>2018-06-07</b> <i class="layui-icon layui-icon-news-review1"></i>200</div>
-    				<p class="cont">凭借着黄晓明妻子的身份，baby在内地娱乐圈发展得顺风顺水，很多人完全不理解为何就杨颖这样演技并不突出的...</p>
-    			</div>
-    		</li>
-    		<li>
-    			<a class="img" href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/home_img6.jpg"></a><div class="txt">
-    				<a href="detail.html">这才是柠檬水的正确喝法，原来这么多年都泡错了！</a>
-    				<div class="label"><span class="orange">生活</span>生活网 <b>2018-06-07</b> <i class="layui-icon layui-icon-news-review1"></i>200</div>
-    				<p class="cont">千万别去皮。食用前先用面粉搓洗，再用一把盐揉搓表皮，去除残留的农药和蜡，最后用清水冲洗两遍即可。将洗好...</p>
-    			</div>
-    		</li>
-        <li>
-          <a class="img" href="javascript:;"><img src="static/plugins/layuiSimpleNews/demoImg/paging_img5.jpg"></a><div class="txt">
-            <a href="detail.html">这七个坏习惯从小没改过来，警惕娃会越长越丑</a>
-            <div class="label"><span class="green">育儿</span>生活网 <b>2018-06-06</b> <i class="layui-icon layui-icon-news-review1"></i>200</div>
-            <p class="cont">不要以为孩子的美丑都只靠基因决定的。其实在养育宝宝的过程中，对宝宝的生活细节细心照顾，也能让宝宝越来越好看！</p>
-          </div>
-        </li>
+			<% for( var i=0;i<articles.length;i++){ %>
+				<% if( articles[i].category_url == 'tuijian' ) { %>
+					<li>
+						<a class="img" href="javascript:;"><img src="<%= articles[i].cover %>"></a><div class="txt">
+							<a href="detail.html"><%= articles[i].title %></a>
+							<div class="label">
+								<span><%= articles[i].label %></span><%= articles[i].source %> 
+								<b><%= articles[i].update_time %></b> 
+								<i class="layui-icon layui-icon-news-review1"></i><%= articles[i].read_count %>
+							</div>
+							<p class="cont"><%= articles[i].summary %></p>
+						</div>
+					</li>
+				<% } %>
+			<% } %>
     	</ul>
-    	<div class="btn"><a href="javascript:;" class="layui-btn layui-btn-primary">点击加载更多</a></div>		
+    	<!-- <div class="btn"><a href="javascript:;" class="layui-btn layui-btn-primary">点击加载更多</a></div>		 -->
     </div>
     <div class="layui-col-md4 index-side">
     	<div class="newsSide">

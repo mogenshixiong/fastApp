@@ -89,5 +89,6 @@ module.exports = function (app) {
     //保存到内存中
     async function saveCmsArticle(){
         global.cmsArticle = await dbUtils.getArticleList();
+        //! 可优化为 只更新 被操作数据，减少数据库IO
     }
 }

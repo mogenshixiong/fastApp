@@ -110,6 +110,7 @@ async function add(sqliteDbPath,tableName,entity){
         var db = new sqlite3.Database(sqliteDbPath);
         entity.id = uuid.v1();
         entity.create_time =  date.format(new Date(),'YYYY-MM-DD HH:mm:ss');
+        entity.update_time =  date.format(new Date(),'YYYY-MM-DD HH:mm:ss');
         var fields = [];
         var values = [];
         for (const attribute in entity) {

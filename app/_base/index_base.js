@@ -17,6 +17,10 @@ module.exports = function (app) {
   // 挂载所有盘符
   tool.registerDrives(app); 
 
+  //检查目录结构,创建核心目录，db,file,log,
+  tool.initFileFolder();
+
+
   // 设置静态文件路径映射
   app.use('/static', express.static( path.join(process.cwd(), './static') )); 
   app.use('/file', express.static( path.join( process.cwd(), './file') ));
@@ -30,5 +34,4 @@ module.exports = function (app) {
   // 设置拦截器
   require("./intercept/intercept")(app);
 
-  //检查目录结构,创建核心目录，db,file,log,
 }

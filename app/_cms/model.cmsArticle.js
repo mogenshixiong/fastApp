@@ -20,11 +20,11 @@ async function dbRun(){
       "label TEXT ," + //标签
       "category_url TEXT ," + //栏目
       "category_type_url TEXT ," + //分类
-      "collect_count TEXT ," + //收藏量
-      "read_count TEXT ," + //阅读量
-      "relay_count TEXT ," + //转发量
-      "start_count TEXT ," + //点赞量
-      "reply_count TEXT ," + //回复量
+      "collect_count INT DEFAULT '0' ," + //收藏量
+      "read_count INT DEFAULT '0' ," + //阅读量
+      "relay_count INT DEFAULT '0' ," + //转发量
+      "start_count INT DEFAULT '0' ," + //点赞量
+      "reply_count INT DEFAULT '0' ," + //回复量
       "correlation_article TEXT ," + //相关文章 推荐文章
 
       "sort INTEGER ," + //排序

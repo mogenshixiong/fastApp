@@ -105,6 +105,20 @@
   </div>
 
   <%- include('../_include/commonJs.ejs') %>
+  <script src="static/plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+  <script src="static/plugins/editor.md/editormd.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+      var height = $(window).height() - 230;
+      var editor = editormd("editor", {
+          height: height - 50 +"px",
+          emoji : true,
+          toolbar  : true,  //关闭工具栏
+          path : "static/plugins/editor.md/lib/"
+      });
+  });
+  </script>
+
   <script>
   document.getElementById("title").focus();
   let entity = {id: ''};
@@ -196,18 +210,6 @@
   });
   </script>
 
-<script src="static/plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
-<script src="static/plugins/editor.md/editormd.min.js"></script>
-<script type="text/javascript">
-    $(function() {
-        var height = $(window).height() - 54 - 96 - 50;
-        var editor = editormd("editor", {
-            height: height - 50 +"px",
-            emoji : false,
-            toolbar  : true,  //关闭工具栏
-            path : "static/plugins/editor.md/lib/"
-        });
-    });
-</script>
+
 </body>
 </html>

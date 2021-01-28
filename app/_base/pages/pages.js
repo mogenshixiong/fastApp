@@ -97,7 +97,8 @@ module.exports = function (app) {
     if(config.reqUrl == '/'){
       res.render( config.resUrl ,{
         navs: global.cmaNavs,
-        carouses: global.cmsCarouses
+        carouses: global.cmsCarouses,
+        articles: global.cmsArticle
       });
     }else {
       res.render( config.resUrl );

@@ -25,15 +25,14 @@
 		 		</ul>
 		 		<div class="detail-cont">
 		 			<h1><%= entity.title %></h1>
-		 			<div class="newsClass"><span>财经</span>小明同学 <b>2018-06-07 08:30</b> <i>收藏1289</i> <i>评论500</i></div>
-		 			<p class="title">文章摘自奇闻趣事每日说</p>
-	 				<p>说起刘强东，想必很多人都知道他是谁吧，京东集团CEO，作为京东集团CEO也是避免不了，很多媒体的采访，就在7月17日的时候，刘强东就遭到美国采访，并且话题就是竞争对手拼多多，而刘强东也是说出了自己的看法，那么就和小编一起了解了解一下吧~</p>
-	 				<img src="../res/static/img/paging_img1.jpg">
-	 				<p>采访的人：有一个年轻的公司名叫，拼多多，你觉得他们是你的对手吗？刘强东也是做出了回应，并且表示到：知道，现在的消费者，他们在乎的就是质量、价钱、效劳，并不在意同行，我只在乎就是客服感受，如果买过他们的中国人都知道，他们会给你答案。</p>
-	 				<img src="../res/static/img/home_img1.jpg">
-	 				<p>想必大家都知道，拼多多也是一个消费的平台，由于消费者购买后，也是纷纷表示到，拼多多的质量相当的不好，甚至虚假宣传、等等一些耳闻，而这个耳闻也是导致了很多消费者放弃购买。</p>
-	 				<p>甚至刘强东曾经还批拼多多，并且还表示到，做社交电商一定要信任，尤其是质量，而且商品价钱廉价到一定水平时，抵消费者没有益处，是糜费了钱而不是省钱。并且有的网友还表示到：拼多多买了一次，果断卸了，谁要是给我发帮助砍价的东西，我就拉黑他。</p>
-		 		</div>
+		 			<div class="newsClass">
+            <span><%= entity.label %></span><%= entity.autor %>
+            <b><%= entity.update_time %> </b> 
+            <i>阅读<%= entity.read_count %></i>
+          </div>
+           <p class="title"><%= entity.source %></p>
+           <%- entity.content %>
+	 				</div>
 		 		<div class="detail-label">
 		 			<i class="layui-icon layui-icon-news-label"></i>
 		 			<span class="layui-breadcrumb">
@@ -43,74 +42,6 @@
 			 			<a href="javascript:;">GPU</a>/
 			 			<a href="javascript:;">三星</a>
 					</span>
-		 		</div>
-		 		<div class="detail-comment">
-		 			<p>全部评论 <span>102</span></p>
-		 			<div class="addComment layui-form">
-		 				<div class="img"><span><img src="../res/static/img/header2.png"></span></div><div class="content">
-		 					<textarea placeholder="写下您想说的评论吧..." class="layui-textarea"></textarea>
-		 					<div class="btn"><button class="layui-btn">添加评论</button></div>
-		 				</div>
-		 			</div>
-	 				<ul id="replyCont">
-	 					<li>
-	 						<div class="img"><a href=""><img src="../res/static/img/header3.png"></a></div><div class="readCom">
-	 							<p class="name"><a href="">王小笑</a><span>1小时前</span><span class="goods">100<i class="layui-icon layui-icon-news-good"></i></span></p>
-	 							<p class="txt">这篇新闻写的太棒了！给用户带来可用的信息这篇新闻写的很棒！</p>
-	 							<a class="reply" href="javascript:;">回复</a>
-	 						</div>
-	 					</li>
-	 					<li>
-	 						<div class="img"><a href=""><img src="../res/static/img/header3.png"></a></div><div class="readCom">
-	 							<p class="name"><a href="">王小笑</a><span>1小时前</span><span class="goods">100<i class="layui-icon layui-icon-news-good"></i></span></p>
-	 							<p class="txt">这篇新闻写的太棒了！给用户带来可用的信息这篇新闻写的很棒！</p>
-	 							<a class="reply" href="javascript:;">回复</a>
-	 						</div>
-	 					</li>
-	 					<li>
-	 						<div class="img"><a href=""><img src="../res/static/img/header3.png"></a></div><div class="readCom">
-	 							<p class="name"><a href="">王小笑</a><span>1小时前</span><span class="goods">100<i class="layui-icon layui-icon-news-good"></i></span></p>
-	 							<p class="txt">这篇新闻写的太棒了！给用户带来可用的信息这篇新闻写的很棒！</p>
-	 							<a class="reply" href="javascript:;">回复</a>
-	 						</div>
-	 					</li>
-	 					<li>
-	 						<div class="img"><a href=""><img src="../res/static/img/header3.png"></a></div><div class="readCom">
-	 							<p class="name"><a href="">王小笑</a><span>1小时前</span><span class="goods">100<i class="layui-icon layui-icon-news-good"></i></span></p>
-	 							<p class="txt">这篇新闻写的太棒了！给用户带来可用的信息这篇新闻写的很棒！</p>
-	 							<a class="reply" href="javascript:;">回复</a>
-	 						</div>
-	 					</li>
-	 					<li>
-	 						<div class="img"><a href=""><img src="../res/static/img/header3.png"></a></div><div class="readCom">
-	 							<p class="name"><a href="">王小笑</a><span>1小时前</span><span class="goods">100<i class="layui-icon layui-icon-news-good"></i></span></p>
-	 							<p class="txt">这篇新闻写的太棒了！给用户带来可用的信息这篇新闻写的很棒！</p>
-	 							<a class="reply" href="javascript:;">回复</a>
-	 						</div>
-	 					</li>
-	 					<li>
-	 						<div class="img"><a href=""><img src="../res/static/img/header3.png"></a></div><div class="readCom">
-	 							<p class="name"><a href="">王小笑</a><span>1小时前</span><span class="goods">100<i class="layui-icon layui-icon-news-good"></i></span></p>
-	 							<p class="txt">这篇新闻写的太棒了！给用户带来可用的信息这篇新闻写的很棒！</p>
-	 							<a class="reply" href="javascript:;">回复</a>
-	 						</div>
-	 					</li>
-	 					<li>
-	 						<div class="img"><a href=""><img src="../res/static/img/header3.png"></a></div><div class="readCom">
-	 							<p class="name"><a href="">王小笑</a><span>1小时前</span><span class="goods">100<i class="layui-icon layui-icon-news-good"></i></span></p>
-	 							<p class="txt">这篇新闻写的太棒了！给用户带来可用的信息这篇新闻写的很棒！</p>
-	 							<a class="reply" href="javascript:;">回复</a>
-	 						</div>
-	 					</li>
-	 					<li>
-	 						<div class="img"><a href=""><img src="../res/static/img/header3.png"></a></div><div class="readCom">
-	 							<p class="name"><a href="">王小笑</a><span>1小时前</span><span class="goods">100<i class="layui-icon layui-icon-news-good"></i></span></p>
-	 							<p class="txt">这篇新闻写的太棒了！给用户带来可用的信息这篇新闻写的很棒！</p>
-	 							<a class="reply" href="javascript:;">回复</a>
-	 						</div>
-	 					</li>
-	 				</ul>
-	 				<div id="detailPage"></div>
 		 		</div>
 		 	</div>
 		</div>

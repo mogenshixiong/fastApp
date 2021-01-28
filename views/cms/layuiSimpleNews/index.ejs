@@ -70,7 +70,7 @@
 				<% if( articles[i].category_url == 'tuijian' ) { %>
 					<li>
 						<a class="img" href="javascript:;"><img src="<%= articles[i].cover %>"></a><div class="txt">
-							<a href="detail.html"><%= articles[i].title %></a>
+							<a href="/articleDetail<%= articles[i].id %>"><%= articles[i].title %></a>
 							<div class="label">
 								<span><%= articles[i].label %></span><%= articles[i].source %> 
 								<b><%= articles[i].update_time %></b> 

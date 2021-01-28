@@ -3,6 +3,7 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const dbUtils = require("../_base/utils/dbUtils");
 const resCode = require('../_base/const/responseCode');
 const sqliteDbPath = process.cwd()+"/db/base.db";//打包后数据库文件挂载在包外
+const markdown = require("markdown").markdown;
 
 var multer = require('multer');
 var path = require('path');
@@ -84,6 +85,17 @@ module.exports = function (app) {
         await dbUtils.deleteById(sqliteDbPath,"sys_cmsArticle",req.body.id);
         res.json({ code: resCode.SUCCESS});
         saveCmsArticle();
+    });
+
+    //文章详情页面
+    app.get('/articleDetail:id', async function (req, res) {
+        const id = req.params.id;
+        var entity = await dbUtils.findById(sqliteDbPath,"sys_cmsArticle", id);
+        entity.content = markdown.toHTML(entity.content);
+        res.render( 'cms/layuiSimpleNews/articleDetail' ,{
+            navs: global.cmaNavs,
+            entity: entity,
+        });
     });
 
     //保存到内存中

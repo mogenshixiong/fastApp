@@ -73,6 +73,11 @@
       <i class="layui-icon layui-icon-delete"></i>删除
     </a>
   </script>
+  <script type="text/html" id="table-cover">
+    <img class="layui-upload-img" id="demo1" style="max-height: 37px;" 
+      title="{{d.cover}}"
+      src="{{d.cover}}" onerror="javascript:this.style.display='none'">
+  </script>
   <%- include('../_include/commonJs.ejs') %>
   <script>
   init();
@@ -93,7 +98,7 @@
         {field: 'title', title: '标题'},
         {field: 'keyword', title: '关键词'},
         {field: 'summary', title: '摘要'},
-        {field: 'cover', title: '封面'},
+        {field: 'cover', title: '封面', templet: '#table-cover'},
         {title: '操作', width: 200, templet: '#table-handle'},
       ]]
     });

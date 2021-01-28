@@ -2,6 +2,7 @@
 <html>
 <head>
 <%- include('../_include/headByAdmin.ejs') %>
+<link rel="stylesheet" href="static/plugins/editor.md/css/editormd.min.css" />
 <style>
 
 </style>
@@ -23,13 +24,6 @@
               <label class="layui-form-label">关键词</label>
               <div class="layui-input-block">
                 <input type="text" id="keyword" name="keyword" placeholder="请输入" 
-                  autocomplete="off" class="layui-input">
-              </div>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">摘要</label>
-              <div class="layui-input-block">
-                <input type="text" id="summary" name="summary" placeholder="请输入" 
                   autocomplete="off" class="layui-input">
               </div>
             </div>
@@ -89,9 +83,19 @@
               </div> 
             </div>
             <div class="layui-block">
+              <label class="layui-form-label">摘要</label>
+              <div class="layui-input-block">
+                <input type="text" id="summary" name="summary" placeholder="请输入" 
+                  autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-block">
               <label class="layui-form-label">正文</label>
             </div>
             <div class="layui-block">
+              <div id="editor">
+                  <textarea style="display:none;" id="content"></textarea>
+              </div>
               <!-- https://gitee.com/pandao/editor.md -->
             </div>
           </div>
@@ -114,19 +118,38 @@
         document.getElementById('title').value = entity.title;
         document.getElementById('keyword').value = entity.keyword;
         document.getElementById('summary').value = entity.summary;
+        document.getElementById('cover').value = entity.cover;
+        document.getElementById('source').value = entity.source;
+        document.getElementById('autor').value = entity.autor;
+        document.getElementById('label').value = entity.label;
+        document.getElementById('category_url').value = entity.category_url;
+        document.getElementById('category_type_url').value = entity.category_type_url;
+        document.getElementById('sort').value = entity.sort;
+        document.getElementById('content').value = entity.content;
+        document.getElementById('demo1').setAttribute("src", entity.cover);
       }
     }
   }
   async function save(){
     var data = {
+      id: entity.id,
       title: document.getElementById('title').value,
       keyword: document.getElementById('keyword').value,
       summary: document.getElementById('summary').value,
-      id: entity.id
+      cover: document.getElementById('cover').value,
+      source: document.getElementById('source').value,
+      autor: document.getElementById('autor').value,
+      label: document.getElementById('label').value,
+      category_url: document.getElementById('category_url').value,
+      category_type_url: document.getElementById('category_type_url').value,
+      sort: document.getElementById('sort').value,
+      content: document.getElementById('content').value,
     };
-    if( data.title.trim() == "" ){
-      layer.msg("请输入标题");
-      return false;
+    for( var key in data){
+      if(key != 'id' && data[key].trim() == ""){
+        layer.msg("信息输入不完整，请输入...");
+        return false;
+      }
     }
     const res = await MG.api.saveCmsArticleById(data);
     
@@ -172,5 +195,19 @@
     }
   });
   </script>
+
+<script src="static/plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script src="static/plugins/editor.md/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        var height = $(window).height() - 54 - 96 - 50;
+        var editor = editormd("editor", {
+            height: height - 50 +"px",
+            emoji : false,
+            toolbar  : true,  //关闭工具栏
+            path : "static/plugins/editor.md/lib/"
+        });
+    });
+</script>
 </body>
 </html>

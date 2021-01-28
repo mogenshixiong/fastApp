@@ -6,10 +6,6 @@ const {writeErrorLog} = require('./app/_base/utils/logUtils');
 const {consoleWelcome} = require('./app/_base/tool/tool');
 
 try {
-    //! 检测是否有static，config文件夹 打包后需要检测是否有node_sqlite3.node文件
-    //! 如何判断是否是打包状态呢？？？
-    //!通过let sqliteDbPath = process.cwd()+"/db/base.db"; 方式查找 node_modules，package.json 文件。
-    //!如果找不到那就是打包环境
 
     // 程序总入口
     main(app);
@@ -29,5 +25,3 @@ try {
         writeErrorLog( err );
     }
 }
-
-//! 785017247@qq.com 作者邮箱

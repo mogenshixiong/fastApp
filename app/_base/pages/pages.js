@@ -13,6 +13,8 @@ module.exports = function (app) {
     {reqUrl: '/login', resUrl: adminTemplate+'/login/login', mustLogin: false, pageName: '登录页'},
     {reqUrl: '/index', resUrl: adminTemplate+'/index/index', mustLogin: true, pageName: '后台首页'},
     
+    {reqUrl: '/myComputer', resUrl: adminTemplate+'/admin/myComputer', mustLogin: true, pageName: '我的电脑'},
+
     {reqUrl: '/cmsNavList', resUrl: adminTemplate+'/cmsNav/cmsNavList', mustLogin: true, pageName: 'CMS导航列表页'},
     {reqUrl: '/cmsNavForm', resUrl: adminTemplate+'/cmsNav/cmsNavForm', mustLogin: true, pageName: 'CMS导航表单页'},
     {reqUrl: '/cmsCarouselList', resUrl: adminTemplate+'/cmsCarousel/cmsCarouselList', mustLogin: true, pageName: 'CMS轮播图列表页'},
@@ -22,6 +24,7 @@ module.exports = function (app) {
     {reqUrl: '/cmsCategoryTypeForm', resUrl: adminTemplate+'/cmsCategory/cmsCategoryTypeForm', mustLogin: true, pageName: 'CMS栏目分类设置表单页'},
     {reqUrl: '/cmsArticleList', resUrl: adminTemplate+'/cmsArticle/cmsArticleList', mustLogin: true, pageName: 'CMS文章列表页'},
     {reqUrl: '/cmsArticleForm', resUrl: adminTemplate+'/cmsArticle/cmsArticleForm', mustLogin: true, pageName: 'CMS文章详情页'},
+    {reqUrl: '/website', resUrl: adminTemplate+'/website/website', mustLogin: true, pageName: 'CMS站点设置'},
 
     {reqUrl: '/wmsAttributesManage', resUrl: adminTemplate+'/wmsAttributesManage/wmsAttributesManage', mustLogin: true, pageName: '物品属性设置'},
     {reqUrl: '/wmsStockManage', resUrl: adminTemplate+'/wmsStockManage/wmsStockManage', mustLogin: true, pageName: '库存管理'},
@@ -114,7 +117,6 @@ module.exports = function (app) {
         articles: global.cmsArticle
       });
     } else {
-      console.log(config.reqUrl);
       res.render( config.resUrl );
     }
   }

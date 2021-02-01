@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%- include('../_include/headByAdmin.ejs') %>
+<style>
+.star {
+  left: 85px;
+}
+.path {
+  left: 115px;
+  line-height: 46px;
+}
+.layui-card-body{
+  min-height: Calc(100vh - 100px);
+}
+#jsmind_container .jsmind-inner{
+  min-height: Calc(100vh - 100px);
+}
+</style>
+</head>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-header">
+        导航设置
+        <i class="star layui-icon layui-icon-rate"></i>
+        <i class="star layui-icon layui-icon-rate-solid"></i>
+        <a class="layui-a-tips path">当前位置：我的电脑</a>
+        <a class="layui-a-tips">常用位置：下拉框</a>
+      </div>
+      <div class="layui-card-body">
+        <div id="jsmind_container"></div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../_include/commonJs.ejs') %>
+
+  <link type="text/css" rel="stylesheet" href="static/plugins/jsmind/css/jsmind.css" />
+  <script type="text/javascript" src="static/plugins/jsmind/js/jsmind.js"></script>
+  <!--
+    enable drag-and-drop feature
+    <script type="text/javascript" src="js/jsmind.draggable.js"></script>
+  -->
+
+  <script>
+    // https://github.com/hizzgdev/jsmind/blob/master/docs/zh/1.usage.md
+    var mind = {
+    /* 元数据，定义思维导图的名称、作者、版本等信息 */
+    "meta":{
+      "name":"example",
+      "author":"hizzgdev@163.com",
+      "version":"0.2"
+    },
+    /* 数据格式声明 */
+    "format":"node_array",
+    /* 数据内容 */
+    "data":[
+        {"id":"root", "isroot":true, "topic":"jsMind"},
+
+        {"id":"easy", "parentid":"root", "topic":"Easy", "direction":"left"},
+        {"id":"easy1", "parentid":"easy", "topic":"Easy to show"},
+        {"id":"easy2", "parentid":"easy", "topic":"Easy to edit"},
+        {"id":"easy3", "parentid":"easy", "topic":"Easy to store"},
+        {"id":"easy4", "parentid":"easy", "topic":"Easy to embed"},
+
+        {"id":"open", "parentid":"root", "topic":"Open Source", "expanded":false, "direction":"right"},
+        {"id":"open1", "parentid":"open", "topic":"on GitHub"},
+        {"id":"open2", "parentid":"open", "topic":"BSD License"},
+
+        {"id":"powerful", "parentid":"root", "topic":"Powerful", "direction":"right"},
+        {"id":"powerful1", "parentid":"powerful", "topic":"Base on Javascript"},
+        {"id":"powerful2", "parentid":"powerful", "topic":"Base on HTML5"},
+        {"id":"powerful3", "parentid":"powerful", "topic":"Depends on you"},
+      ]
+    };
+    var options = {                 // options 将在下一章中详细介绍
+      container:'jsmind_container', // [必选] 容器的ID，或者为容器的对象
+      editable:true,                // [可选] 是否启用编辑
+      theme:'orange'                // [可选] 主题
+    };
+    var jm = new jsMind(options);
+    jm.show(mind);
+  </script>
+</body>
+</html>

@@ -76,7 +76,7 @@ module.exports = function (app) {
 }
 
 
-//异步获取服务器cpu使用率
+//获取服务器cpu使用率
 function getDiskDrives(){
     return new Promise(function(resolve, reject) {
         base.getDrives(function(err, aDrives) {

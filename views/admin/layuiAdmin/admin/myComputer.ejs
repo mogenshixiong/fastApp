@@ -16,16 +16,21 @@
 #jsmind_container .jsmind-inner{
   min-height: Calc(100vh - 100px);
 }
+.curPath{
+  margin-right: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
   <div class="layui-fluid">
     <div class="layui-card">
       <div class="layui-card-header">
-        导航设置
+        <span>我的电脑</span>
         <i class="star layui-icon layui-icon-rate"></i>
         <i class="star layui-icon layui-icon-rate-solid"></i>
-        <a class="layui-a-tips path">当前位置：我的电脑</a>
+        <a class="layui-a-tips path" id='curPath'></a>
         <a class="layui-a-tips">常用位置：下拉框</a>
       </div>
       <div class="layui-card-body">
@@ -45,42 +50,75 @@
 
   <script>
     // https://github.com/hizzgdev/jsmind/blob/master/docs/zh/1.usage.md
-    var mind = {
-    /* 元数据，定义思维导图的名称、作者、版本等信息 */
-    "meta":{
-      "name":"example",
-      "author":"hizzgdev@163.com",
-      "version":"0.2"
-    },
-    /* 数据格式声明 */
-    "format":"node_array",
-    /* 数据内容 */
-    "data":[
-        {"id":"root", "isroot":true, "topic":"jsMind"},
-
-        {"id":"easy", "parentid":"root", "topic":"Easy", "direction":"left"},
-        {"id":"easy1", "parentid":"easy", "topic":"Easy to show"},
-        {"id":"easy2", "parentid":"easy", "topic":"Easy to edit"},
-        {"id":"easy3", "parentid":"easy", "topic":"Easy to store"},
-        {"id":"easy4", "parentid":"easy", "topic":"Easy to embed"},
-
-        {"id":"open", "parentid":"root", "topic":"Open Source", "expanded":false, "direction":"right"},
-        {"id":"open1", "parentid":"open", "topic":"on GitHub"},
-        {"id":"open2", "parentid":"open", "topic":"BSD License"},
-
-        {"id":"powerful", "parentid":"root", "topic":"Powerful", "direction":"right"},
-        {"id":"powerful1", "parentid":"powerful", "topic":"Base on Javascript"},
-        {"id":"powerful2", "parentid":"powerful", "topic":"Base on HTML5"},
-        {"id":"powerful3", "parentid":"powerful", "topic":"Depends on you"},
-      ]
-    };
     var options = {                 // options 将在下一章中详细介绍
       container:'jsmind_container', // [必选] 容器的ID，或者为容器的对象
-      editable:true,                // [可选] 是否启用编辑
-      theme:'orange'                // [可选] 主题
+      editable:false,                // [可选] 是否启用编辑
+      // theme:'primary',
+      // theme:'warning',
+      // theme:'danger',
+      // theme:'success',
+      // theme:'info',
+      // theme:'greensea',
+      // theme:'nephrite',
+      // theme:'belizehole',
+      // theme:'wisteria',
+      // theme:'asphalt',
+      // theme:'orange',
+      // theme:'pumpkin',
+      // theme:'pomegranate',
+      theme:'clouds',
+      // theme:'asbestos',
     };
+    
     var jm = new jsMind(options);
-    jm.show(mind);
+    //获取当前目录 向下4级 所有目录
+    async function getFolderNodeList(path){
+      path = path.replace("\\\\","\\");
+      path = path.replace(/重复是不可能重复的这辈子都不可能重复的/g,"\\");
+      renderCurPath(path); // 显示当前位置
+
+      const res = await MG.api.getFolderNodeList(path);
+      jm.show(res.data); //渲染脑图
+
+      addEventListener();//绑定节点点击事件
+    }
+
+    getFolderNodeList(''); // F:\\1000_work
+    function addEventListener(){
+      let list = document.getElementsByTagName('jmnode');
+      for(var i=0;i<list.length;i++){
+        list[i].onclick = function(){
+          getFolderNodeList(this.getAttribute('nodeid'));
+        };
+      }
+    }
+
+    function renderCurPath(path){
+      let curPath = document.getElementById('curPath');
+      let list = path.split('\\');
+      console.log(list);
+      let html = '';
+      for(var i=0;i<list.length;i++){
+        if(list[i] == ''){
+          continue;
+        }
+        let curNodePath = getCurNodePath(list, i);
+        html += `<a class="curPath" onclick="getFolderNodeList('${curNodePath}')">
+          ${list[i]}\\</a>`
+      }
+      curPath.innerHTML = html;
+    }
+
+    function getCurNodePath(list, i){
+      let path = "";
+      for(var p=0;p<=i;p++){
+        path += list[p] + '重复是不可能重复的这辈子都不可能重复的'
+      }
+      if(i>0){
+        path = path.substr(0, path.length - '重复是不可能重复的这辈子都不可能重复的'.length);  
+      }
+      return path;
+    }
   </script>
 </body>
 </html>

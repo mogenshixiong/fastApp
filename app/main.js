@@ -5,6 +5,7 @@ module.exports = function (app) {
 
   require( "../app/_user/route.user.js")(app); //加载用户模块
   require( "../app/_cms/route.cms.js")(app); //加载cms内容管理模块
+  require( "../app/_mycomputer/route.mycomputer.js")(app); //加载我的电脑模块
 
   require( "../app/bookmark/route.bookmark.js")(app); // 书签
   require( "../app/computerApp/route.computerApp.js")(app); // 本地应用

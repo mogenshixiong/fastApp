@@ -1,6 +1,8 @@
 MG.api = {
   login, // 登录
 
+  getFolderNodeList, //获取目录list
+
   findUserByPage, // 获取用户list
   findUserById, // 根据用户ID获取用户信息
   saveUser, // 新增or编辑用户，编辑时可不是输入密码
@@ -31,6 +33,8 @@ MG.api = {
   saveCmsArticleById, //新增&编辑cms文章
   deleteCmsArticleById, //删除cms文章
 };
+async function getFolderNodeList(path){return await MG.post('/getFolderNodeList',{path});}
+
 async function findCmsArticleByPage(){return await MG.post('/findCmsArticleByPage',{page, limit});}
 async function findCmsArticleById(id){return await MG.post('/findCmsArticleById',{id}) }
 async function saveCmsArticleById(entity){return await MG.post('/saveCmsArticleById', entity);}

@@ -62,9 +62,12 @@
             line_color:'#555'
         },
         layout:{
-            hspace:30,
-            vspace:20,
-            pspace:13
+            // hspace:30,
+            // vspace:20,
+            // pspace:13,
+            hspace:60,
+            vspace:3,
+            pspace:13,
         },
         default_event_handle:{
             enable_mousedown_handle:true,

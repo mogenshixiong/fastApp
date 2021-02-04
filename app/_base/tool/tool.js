@@ -384,12 +384,18 @@ function getLicense(){
 }
 function registerDrives(app){
 	getDrives(function(err, aDrives) { // 获取所有盘符
+		global.drives = [];
 		for (const key in aDrives) {
 				if (aDrives.hasOwnProperty(key)) {
 						//所有盘符都注册为静态文件，以便node可以访问到电脑所有文件
-						app.use('/'+aDrives[key].mounted.split(":")[0], express.static( aDrives[key].mounted+"\\" ));
+						app.use(
+							'/'+aDrives[key].mounted.split(":")[0], 
+							express.static( aDrives[key].mounted+"\\" )
+						);
+						global.drives.push( `${aDrives[key].mounted}\\` );
 				}
 		}
+		// console.log(global.drives);
   });
 }
 function consoleWelcome(){

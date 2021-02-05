@@ -15,9 +15,6 @@ module.exports = function (app) {
   app.get('/index', function (req, res) {
     res.render(global.adminTemplate+'/index/index'); //后台首页
   });
-  app.get('/home', function (req, res) {
-    res.render(global.adminTemplate+'home/home');// 个人中心
-  });
   app.get('/myComputer', function (req, res) {
     res.render(global.adminTemplate+'/admin/myComputer'); //我的电脑
   });
@@ -48,10 +45,10 @@ module.exports = function (app) {
   app.get('/cmsArticleForm', function (req, res) {
     res.render(global.adminTemplate+'/cmsArticle/cmsArticleForm'); //CMS文章详情页
   });
-  app.get('/website', function (req, res) {
+  app.get('/website', function (req, res) {//CMS站点设置
     res.render(global.adminTemplate+'/website/website',{
       webSiteconfig: global.webSiteconfig,
-    }); //CMS站点设置
+    }); 
   });
   app.get('/wmsAttributesManage', function (req, res) {
     res.render(global.adminTemplate+'/wmsAttributesManage/wmsAttributesManage'); //物品属性设置
@@ -77,7 +74,7 @@ module.exports = function (app) {
   app.get('/userForm', function (req, res) {
     res.render(global.adminTemplate+'/user/userForm'); //用户表单页
   });
-  app.get('/logout', function (req, res) {
+  app.get('/logout', function (req, res) { // 退出
     if(req.session){
       req.session.destroy(function(err) {
         res.redirect('/login');
@@ -85,9 +82,5 @@ module.exports = function (app) {
     }else {
       res.redirect('/login');
     }
-  });
-
-  app.use((err, req, res, next) => {
-    res.render(global.adminTemplate+'/tips/404');
   });
 }

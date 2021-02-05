@@ -17,5 +17,5 @@ pkg -t win package.json -o E:\mogenshixiong\摩根师兄
 pkg -t macos package.json -o E:\mogenshixiong\摩根师兄
 
 ### 打包注意事项
-1.打包时不会打包static及file文件夹。需要手工拷贝到exe程序统计目录。（其中file文件夹如果可以根据自己的需要，可以不拷贝）  
-2.node_sqlite3.node模块无法打包到exe程序中，需要手工拷贝到exe同级目录下。  
+1.打包时不会打包static、file、config文件夹。需要手工拷贝到exe程序统计目录。
+2.node_sqlite3.node模块无法打包到exe程序中，需要手工拷贝到exe同级目录下。 

@@ -5,7 +5,7 @@ function getFolderNode(path) {
   //获取一级目录
   let res = {
     id: path==''?'root':path,
-    topic: path==''?'root':path,
+    topic: path==''?'我的电脑':path,
     children: [],
   };
   if( path == '' ){
@@ -41,9 +41,9 @@ function getPathNodeFolders(path){
     let res = [];
     const files = fs.readdirSync( path );
     for(var i=0;i< files.length; i++){
-      if( files[i].indexOf('.') != '-1'){
-        continue;
-      }
+      // if( files[i].indexOf('.') != '-1'){
+      //   continue;
+      // }
       let place = i%2==0?'left':'right';
       let obj = {
         // id: uuid.v1(),

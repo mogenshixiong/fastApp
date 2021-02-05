@@ -68,7 +68,7 @@
     }
 
     const res = await MG.api.login(data.loginName, data.password);
-    if( res.code == 0){
+    if( res.code == MG.const.resCode.SUCCESS){
       if (self != top) {
         parent.window.location.href = "/index";
       }else{

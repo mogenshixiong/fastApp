@@ -6,7 +6,6 @@ MG.tools = {
   handle_bit, // 字节转KB或MB或G
   getDomainName, // 根据url 获取domain中间的name
   tool_windowOpenUrl, // 打开url ，判断本地文件时使用node打开
-  tool_openComputerAppByPath, // 调用本地应用程序
   tool_splitByEnter, // 根据换行符切割字符串
   tool_checkFormat, // 图片下载器=检查图片格式是否合法
   tool_checkPath, // 图片下载器=检查下载路径是否合法
@@ -410,29 +409,9 @@ function tool_splitByEnter(str){
   return snsArr;
 }
 
-
-//调用本地应用程序
-function tool_openComputerAppByPath(url){
-  if( url == ""){
-    layer.msg("程序路径不能为空");
-    return;
-  }
-  $.ajax({
-    type: 'POST',
-    url: '/openComputerAppByPath',
-    data: {url:decodeURI(url)},
-    success: function (data) {
-      if(data.code == 1){
-        //console.log(data);
-      }
-    }
-  });
-}
-
 function tool_windowOpenUrl( url ){
   if( url.indexOf("file:///F") == 0 ){
   //layer.msg("浏览器不允许开打本地文件");
-  tool_openComputerAppByPath(url);
   }else{
   window.open(url);  
   }

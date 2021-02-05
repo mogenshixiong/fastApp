@@ -79,7 +79,11 @@
       renderCurPath(path); // 显示当前位置
 
       const res = await MG.api.getFolderNodeList(path);
-      jm.show(res.data); //渲染脑图
+      if(res.code == MG.const.resCode.SUCCESS ){
+        jm.show(res.data); //渲染脑图
+      }else{
+        layer.msg(res.msg);
+      }
 
       addEventListener();//绑定节点点击事件
     }
@@ -110,7 +114,6 @@
     function renderCurPath(path){
       let curPath = document.getElementById('curPath');
       let list = path.split('\\');
-      console.log(list);
       let html = '';
       for(var i=0;i<list.length;i++){
         if(list[i] == ''){
@@ -139,7 +142,7 @@
     async function openFolder(path){
       path = path.replace("\\\\","\\");
       path = path.replace(/重复是不可能重复的这辈子都不可能重复的/g,"\\");
-      await MG.api.openFolder(path);
+      await MG.api.open(path);
     }
   </script>
 </body>

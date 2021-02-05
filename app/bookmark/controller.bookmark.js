@@ -10,21 +10,11 @@ var cheerio = require('cheerio'); //可以解析HTML文件，使用API操作文�
 const open = require('open');
 
 module.exports = function (app) {
-	
     app.get('/bookMark', function (req, res) {
         res.render('bookMark/bookMark');
     });
-	
     app.get('/setBookMarkConfig', function (req, res) {
         res.render('bookMark/setBookMarkConfig');
-    });
-    //!打开本地应用||文件夹||文件
-    app.post('/bookMark/openComputerAppByPath', urlencodedParser, async (req, res) => {
-        var url = req.body.url;
-        (async () => {
-            await open(url);
-            res.json({ code: 1});
-        })();
     });
     //!获取书签数据
     app.post('/getBookmarksByChrome', urlencodedParser, async (req, res) => {

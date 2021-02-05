@@ -5,14 +5,14 @@ const express = require("express");
 const path = require('path');
 
 module.exports = function (app) {
-  // 设置模板引擎
   app.set('view engine', "ejs");
   app.set('views', "./views");
 
   require( "./license/index_license")(app); // 加载授权验证模块
 
   // 加载config配置
-  global.config = tool.getConfig(); 
+  global.config = tool.getConfig('./config/config.json');
+  global.webSiteconfig = tool.getConfig('./config/webSiteConfig.json'); 
 
   // 挂载所有盘符
   tool.registerDrives(app); 

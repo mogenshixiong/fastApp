@@ -10,7 +10,6 @@ const key = "齉龘靐齾爩麤龗灪龖厵爨癵驫麣纞虋讟钃鸜麷鞻韽�
 
 module.exports.consoleWelcome = consoleWelcome;//打印欢迎语
 module.exports.registerDrives = registerDrives;//启动时 注册所有盘符
-module.exports.getLicense = getLicense; // 同步获取授权信息
 module.exports.getConfig = getConfig; // 同步获取配置信息
 module.exports.filterArrayEmptyValues = filterArrayEmptyValues;//删除数组中的空置
 module.exports.getParametersFromRequstBody = getParametersFromRequstBody;//从requst中获取指定参数
@@ -372,15 +371,10 @@ function filterArrayEmptyValues(array){
 		return s && (s.trim() != "");
 	});
 }
-function getConfig(){
-	var config = fs.readFileSync('./config/config.json');
+function getConfig(path){
+	var config = fs.readFileSync(path);
 	config = JSON.parse( config.toString() );
 	return config;
-}
-function getLicense(){
-	var license = fs.readFileSync('./config/license.json');
-	license = JSON.parse( license.toString() );
-	return license;
 }
 function registerDrives(app){
 	getDrives(function(err, aDrives) { // 获取所有盘符

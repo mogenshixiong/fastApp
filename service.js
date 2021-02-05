@@ -7,7 +7,6 @@ const {consoleWelcome} = require('./app/_base/tool/tool');
 
 try {
 
-    // 程序总入口
     main(app);
 
     app.listen( global.config.port ,'0.0.0.0' , () => {

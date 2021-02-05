@@ -36,6 +36,7 @@ function replaceCharacters(str) {
 	}
 }
 
+//!打开本地应用||文件夹||文件
 function open(url) {
 	if (url.indexOf("exe") !== -1 && confirmEnding(url, 'exe')) {
 		openExe(url);
@@ -195,7 +196,7 @@ function getDrives(callback) {
 }
 
 module.exports.getDrives = getDrives;//!获取磁盘内存等信息
-module.exports.open = open;//!打开默认浏览器
+module.exports.open = open; //!打开本地应用||文件夹||文件
 module.exports.openExe = openExe;//!打开默认浏览器
 module.exports.openDefaultBrowser = openDefaultBrowser;//!打开默认浏览器
 module.exports.createsql_add = createsql_add;//!封装新增Sql

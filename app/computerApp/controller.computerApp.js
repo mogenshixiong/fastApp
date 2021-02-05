@@ -65,16 +65,6 @@ module.exports = function (app) {
         }
     });
 
-    //!打开本地应用||文件夹||文件
-    app.post('/openComputerAppByPath', urlencodedParser, async (req, res) => {
-        var url = req.body.url;
-        (async () => {
-            //await open(url);
-            base.open(url);
-            res.json({ code: 1});
-        })();
-    });
-
     //!根据快捷键打开应用
     app.post('/openComputerAppByShortcutKey', urlencodedParser, async (req, res) => {
         var db = new sqlite3.Database(sqliteDbPath);

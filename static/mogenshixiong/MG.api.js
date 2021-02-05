@@ -1,3 +1,4 @@
+//本文件管理所有后台API
 MG.api = {
   login, // 登录
 
@@ -33,11 +34,10 @@ MG.api = {
   saveCmsArticleById, //新增&编辑cms文章
   deleteCmsArticleById, //删除cms文章
 
-  openFolder,
+  open, // 打开本地应用||文件夹||文件
 };
-async function openFolder(path){return await MG.post('/openFolder',{path});}
+async function open(path){return await MG.post('/open',{path});}
 async function getFolderNodeList(path){return await MG.post('/getFolderNodeList',{path});}
-
 async function findCmsArticleByPage(){return await MG.post('/findCmsArticleByPage',{page, limit});}
 async function findCmsArticleById(id){return await MG.post('/findCmsArticleById',{id}) }
 async function saveCmsArticleById(entity){return await MG.post('/saveCmsArticleById', entity);}

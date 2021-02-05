@@ -108,13 +108,18 @@ module.exports = function (app) {
 
   }
 
-  //跳转页面
+  //跳转页面时 添加所需参数
   function render(res, config){
     if(config.reqUrl == '/'){
       res.render( config.resUrl ,{
         navs: global.cmaNavs,
         carouses: global.cmsCarouses,
-        articles: global.cmsArticle
+        articles: global.cmsArticle,
+        webSiteconfig: global.webSiteconfig,
+      });
+    } else if(config.reqUrl == '/website'){
+      res.render( config.resUrl ,{
+        webSiteconfig: global.webSiteconfig,
       });
     } else {
       res.render( config.resUrl );

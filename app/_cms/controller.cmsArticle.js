@@ -4,6 +4,7 @@ const dbUtils = require("../_base/utils/dbUtils");
 const resCode = require('../_base/const/responseCode');
 const sqliteDbPath = process.cwd()+"/db/base.db";//打包后数据库文件挂载在包外
 const markdown = require("markdown").markdown;
+const dbName = 'base';
 
 var multer = require('multer');
 var path = require('path');
@@ -55,8 +56,8 @@ module.exports = function (app) {
             pageNum:req.body.page ,
             pageSize: req.body.limit
         };
-        var list = await dbUtils.findByPage(sqliteDbPath,"sys_cmsArticle",param, "Order By sort ASC");
-        var count = await dbUtils.getCount(sqliteDbPath,"sys_cmsArticle");
+        var list = await dbUtils.findByPage(dbName,"sys_cmsArticle",param, "Order By sort ASC");
+        var count = await dbUtils.getCount(dbName,"sys_cmsArticle");
         res.json({
             code: resCode.SUCCESS ,
             data: list,
@@ -66,23 +67,23 @@ module.exports = function (app) {
     });
     //查询CMS文章
     app.post('/findCmsArticleById', urlencodedParser, async(req, res) => {
-        var entity = await dbUtils.findById(sqliteDbPath,"sys_cmsArticle",req.body.id);
+        var entity = await dbUtils.findById(dbName,"sys_cmsArticle",req.body.id);
         res.json({ code: resCode.SUCCESS ,data : entity});
     });
     //新增&编辑cms文章
     app.post('/saveCmsArticleById', urlencodedParser, async(req, res) => {
         var obj = req.body;
         if( req.body.id === undefined ||  req.body.id.trim() == "" ){
-            await dbUtils.add(sqliteDbPath,"sys_cmsArticle",obj);
+            await dbUtils.add(dbName,"sys_cmsArticle",obj);
         }else{
-            await dbUtils.updateById(sqliteDbPath,"sys_cmsArticle",obj);
+            await dbUtils.updateById(dbName,"sys_cmsArticle",obj);
         }
         res.json({ code: resCode.SUCCESS});
         saveCmsArticle();
     });
     //删除cms文章
     app.post('/deleteCmsArticleById', urlencodedParser, async(req, res) => {
-        await dbUtils.deleteById(sqliteDbPath,"sys_cmsArticle",req.body.id);
+        await dbUtils.deleteById(dbName,"sys_cmsArticle",req.body.id);
         res.json({ code: resCode.SUCCESS});
         saveCmsArticle();
     });
@@ -90,7 +91,7 @@ module.exports = function (app) {
     //文章详情页面
     app.get('/articleDetail:id', async function (req, res) {
         const id = req.params.id;
-        var entity = await dbUtils.findById(sqliteDbPath,"sys_cmsArticle", id);
+        var entity = await dbUtils.findById(dbName,"sys_cmsArticle", id);
         entity.content = markdown.toHTML(entity.content);
         res.render( 'cms/layuiSimpleNews/articleDetail' ,{
             navs: global.cmaNavs,

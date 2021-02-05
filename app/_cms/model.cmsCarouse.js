@@ -1,12 +1,9 @@
-const sqlite3 = require("sqlite3").verbose();
-let sqliteDbPath = process.cwd()+"/db/base.db";
-var db = new sqlite3.Database(sqliteDbPath);//打开数据库链接
 const dbUtils = require("../_base/utils/dbUtils");
 
 async function dbRun(){
     return new Promise((resolve, reject) => {
         //初始化时创建表
-        db.run("CREATE TABLE IF NOT EXISTS  sys_cmsCarouse" + "  (" +
+        global.sqlite3.base.run("CREATE TABLE IF NOT EXISTS  sys_cmsCarouse" + "  (" +
         "id TEXT PRIMARY KEY NOT NULL," + 
         "name TEXT," + //名称
         "img TEXT," + //图片url
@@ -27,10 +24,8 @@ async function dbRun(){
         "field6 TEXT " +
         ") ", async function(err){
             if (!err) {
-                global.cmsCarouses = await dbUtils.findAll(sqliteDbPath,"sys_cmsCarouse","Order By sort ASC");
-                console.log('cms轮播图加载完成！（'+cmsCarouses.length+'）');
+                global.cmsCarouses = await dbUtils.findAll('base',"sys_cmsCarouse","Order By sort ASC");
             }
-            db.close();
         });
     });
 }

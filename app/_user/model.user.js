@@ -1,11 +1,8 @@
-const sqlite3 = require("sqlite3").verbose();
-let sqliteDbPath = process.cwd()+"/db/base.db";
-var db = new sqlite3.Database(sqliteDbPath);//打开数据库链接
 
 async function dbRun(){
     return new Promise((resolve, reject) => {
         //初始化时创建表
-        db.run("CREATE TABLE IF NOT EXISTS  sys_user" + "  (" +
+        global.sqlite3.base.run("CREATE TABLE IF NOT EXISTS  sys_user" + "  (" +
         "id TEXT PRIMARY KEY NOT NULL," + 
         "loginName TEXT NOT NULL," + //登录账号
         "password TEXT NOT NULL," + //登录密码
@@ -40,7 +37,7 @@ async function dbRun(){
         "field5 TEXT ," +
         "field6 TEXT " +
         ") ",function(err){
-            db.close();
+            
         });
     });
 }

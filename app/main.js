@@ -1,4 +1,6 @@
 module.exports = function (app) {
+  require( './_base/const/globalVariable' ); // 初始化定义全局变量，方便统一管理
+  
   require( "./_base/index_base")(app);// 加载核心配置
   require( "../config/userConfig.js")(app); //用户设置 //!此处应该优化为存储数据库。多用户
   require( "./_base/pages/pages")(app);
@@ -13,7 +15,6 @@ module.exports = function (app) {
   require( "../app/userCenter/route.userCenter.js")(app); // 用户中心
   require( "../app/attendance/route.attendance.js")(app); // 考勤管理
   require( "../app/home/route.home.js")(app); // 考勤管理
-
 
   //开启事务
   // var db = new sqlite3.Database(db_path);

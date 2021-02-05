@@ -8,7 +8,7 @@ const base = require('../_base/utils/base');
 module.exports = function (app) {
   app.post('/getFolderNodeList', urlencodedParser, async (req, res) => {
     let path = req.body.path;
-    if( path == 'C:\\'){
+    if( path == 'C:' ||path == 'C:\\' || path == 'C:\\\\'){
       res.json({ code: resCode.ERROR, msg: 'C盘就算了吧，太大了。电脑会跑死的！'});
       res.end();
     }

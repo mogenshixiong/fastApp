@@ -1,12 +1,9 @@
-const sqlite3 = require("sqlite3").verbose();
-let sqliteDbPath = process.cwd()+"/db/base.db";
-var db = new sqlite3.Database(sqliteDbPath);//打开数据库链接
 const dbUtils = require("../_base/utils/dbUtils");
 
 async function dbRun(){
     return new Promise((resolve, reject) => {
         //初始化时创建表
-        db.run("CREATE TABLE IF NOT EXISTS  sys_cmsCategoryType" + "  (" +
+        global.sqlite3.base.run("CREATE TABLE IF NOT EXISTS  sys_cmsCategoryType" + "  (" +
         "id TEXT PRIMARY KEY NOT NULL," + 
         "category_id TEXT NOT NULL," + 
         "name TEXT NOT NULL," + //名称
@@ -25,10 +22,8 @@ async function dbRun(){
         "field6 TEXT " +
         ") ", async function(err){
             if (!err) {
-                global.cmsCategoryType = await dbUtils.findAll(sqliteDbPath,"sys_cmsCategoryType","Order By sort ASC");
-                console.log('cms栏目分类加载完成！（'+cmsCategoryType.length+'）');
+                global.cmsCategoryType = await dbUtils.findAll('base',"sys_cmsCategoryType","Order By sort ASC");
             }
-            db.close();
         });
     });
 }

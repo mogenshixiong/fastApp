@@ -2,11 +2,11 @@ const bodyParser = require('body-parser');//接受传参的库
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const dbUtils = require("../_base/utils/dbUtils");
 const resCode = require('../_base/const/responseCode');
-const sqliteDbPath = process.cwd()+"/db/base.db";//打包后数据库文件挂载在包外
 var multer = require('multer');
 var path = require('path');
 var fs = require("fs");
 const uuid = require('node-uuid');
+const dbName = 'base';
 
 var upload = multer({ //上传图标文件配置
   storage: multer.diskStorage({
@@ -50,7 +50,7 @@ module.exports = function (app) {
 
   //查询所有cms轮播
   app.post('/findAllCmsCarouse', urlencodedParser, async(req, res) => {
-    var navList = await dbUtils.findAll(sqliteDbPath,"sys_cmsCarouse","Order By sort ASC");
+    var navList = await dbUtils.findAll(dbName,"sys_cmsCarouse","Order By sort ASC");
     res.json({
       code: resCode.SUCCESS ,
       data: navList,
@@ -59,29 +59,29 @@ module.exports = function (app) {
   });
   //查询CMS轮播
   app.post('/findCmsCarouseById', urlencodedParser, async(req, res) => {
-    var userEntity = await dbUtils.findById(sqliteDbPath,"sys_cmsCarouse",req.body.id);
+    var userEntity = await dbUtils.findById(dbName,"sys_cmsCarouse",req.body.id);
     res.json({ code: resCode.SUCCESS ,data : userEntity});
   });
   //新增&编辑cms轮播
   app.post('/saveCmsCarouseById', urlencodedParser, async(req, res) => {
     var obj = req.body;
     if( req.body.id === undefined ||  req.body.id.trim() == "" ){
-      await dbUtils.add(sqliteDbPath,"sys_cmsCarouse",obj);
+      await dbUtils.add(dbName,"sys_cmsCarouse",obj);
     }else{
-      await dbUtils.updateById(sqliteDbPath,"sys_cmsCarouse",obj);
+      await dbUtils.updateById(dbName,"sys_cmsCarouse",obj);
     }
     res.json({ code: resCode.SUCCESS});
     saveCmsCarouses();
   });
   //删除cms轮播
   app.post('/deleteCmsCarouseById', urlencodedParser, async(req, res) => {
-    await dbUtils.deleteById(sqliteDbPath,"sys_cmsCarouse",req.body.id);
+    await dbUtils.deleteById(dbName,"sys_cmsCarouse",req.body.id);
     res.json({ code: resCode.SUCCESS});
     saveCmsCarouses();
   });
 
   //保存到内存中
   async function saveCmsCarouses(){
-    global.cmsCarouses = await dbUtils.findAll(sqliteDbPath,"sys_cmsCarouse","Order By sort ASC");;
+    global.cmsCarouses = await dbUtils.findAll(dbName,"sys_cmsCarouse","Order By sort ASC");;
   }
 }

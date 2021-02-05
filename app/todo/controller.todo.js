@@ -1,5 +1,5 @@
 
-var bodyParser = require('body-parser');//接受传参的库
+var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const sqlite3 = require("sqlite3").verbose();

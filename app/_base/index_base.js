@@ -16,8 +16,6 @@ module.exports = function (app) {
   
   tool.registerDrives(app); // 挂载所有盘符
 
-  tool.initFileFolder(); //检查目录结构,创建核心目录，db,file,log,
-
   // 设置静态文件路径映射
   app.use('/static', express.static( path.join(process.cwd(), './static') )); 
   app.use('/file', express.static( path.join( process.cwd(), './file') ));

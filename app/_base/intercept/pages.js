@@ -1,8 +1,8 @@
 
 //页面跳转统一管理
 module.exports = function (app) {
-  app.get('/', function (req, res) {//首页
-    res.render(global.cmsTemplate+'/index',{
+  app.get('/', function (req, res) {
+    res.render(global.cmsTemplate+'/index',{ //前台CMS首页
       navs: global.cmaNavs,
       carouses: global.cmsCarouses,
       articles: global.cmsArticle,
@@ -82,5 +82,8 @@ module.exports = function (app) {
     }else {
       res.redirect('/login');
     }
+  });
+  app.get('*', function (req, res) {
+    res.render(global.adminTemplate+'/tips/404'); //404
   });
 }

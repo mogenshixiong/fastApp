@@ -26,21 +26,9 @@ module.exports.setLocals = setLocals;//服务启动时设置全局变量
 module.exports.enCodeByMogen = enCodeByMogen;//摩根师兄专用字符串加密
 module.exports.deCodeByMogen = deCodeByMogen;//摩根师兄专用字符串解密
 module.exports.testCode = testCode;
-module.exports.initFileFolder = initFileFolder; //创建文件夹
 module.exports.hasFileFolder = hasFileFolder; // 检查当前工程下是否包含该文件夹
 module.exports.createFileFolder = createFileFolder; // 创建文件夹
-function initFileFolder(){
-	let pathList = [
-		process.cwd()+'/db',
-		process.cwd()+'/log',
-		process.cwd()+'/file',
-	];
-	for(var i=0; i<pathList.length;i++){
-		if( hasFileFolder( pathList[i]) == false ){
-			createFileFolder( pathList[i] );
-		}
-	}
-}
+
 function hasFileFolder(path){
 	if (fs.existsSync(path)) {
 		// console.log('该路径已存在');

@@ -31,9 +31,8 @@ const creatSql = "CREATE TABLE IF NOT EXISTS  sys_cmsArticle" + "  (" +
   "field4 TEXT ," +
   "field5 TEXT ," +
   "field6 TEXT " +
-  ") "
+  ") ";
 
-//执行数据库初始化
 global.sqlite3.base.run(creatSql, async function(err){
   if (!err) {
     global.cmsArticle = await dbUtils.getArticleList();

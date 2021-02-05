@@ -27,11 +27,11 @@
   <div class="layui-fluid">
     <div class="layui-card">
       <div class="layui-card-header">
-        <span>我的电脑</span>
-        <i class="star layui-icon layui-icon-rate"></i>
-        <i class="star layui-icon layui-icon-rate-solid"></i>
+        <span class="curPath" onclick="getFolderNodeList('')">我的电脑</span>
+        <!-- <i class="star layui-icon layui-icon-rate"></i>
+        <i class="star layui-icon layui-icon-rate-solid"></i> -->
         <a class="layui-a-tips path" id='curPath'></a>
-        <a class="layui-a-tips">常用位置：下拉框</a>
+        <!-- <a class="layui-a-tips">常用位置：下拉框</a> -->
       </div>
       <div class="layui-card-body">
         <div id="jsmind_container"></div>
@@ -75,6 +75,7 @@
     async function getFolderNodeList(path){
       path = path.replace("\\\\","\\");
       path = path.replace(/重复是不可能重复的这辈子都不可能重复的/g,"\\");
+      path = path=='root'?'':path;
       renderCurPath(path); // 显示当前位置
 
       const res = await MG.api.getFolderNodeList(path);
@@ -84,11 +85,24 @@
     }
 
     getFolderNodeList(''); // F:\\1000_work
+
+    let ms = 0;
+    var TimeFn = null;
     function addEventListener(){
       let list = document.getElementsByTagName('jmnode');
       for(var i=0;i<list.length;i++){
         list[i].onclick = function(){
-          getFolderNodeList(this.getAttribute('nodeid'));
+          ms++;
+          let that = this;
+          TimeFn = setTimeout(function(){
+            clearTimeout(TimeFn);// 取消上次延时未执行的方法
+            if( ms == 1){
+              getFolderNodeList(that.getAttribute('nodeid')); //单击节点
+            }else{
+              openFolder(that.getAttribute('nodeid')); // 双击节点
+            }
+            ms = 0;
+          },200);
         };
       }
     }
@@ -103,8 +117,10 @@
           continue;
         }
         let curNodePath = getCurNodePath(list, i);
-        html += `<a class="curPath" onclick="getFolderNodeList('${curNodePath}')">
-          ${list[i]}\\</a>`
+        html += `<a class="curPath" 
+          onclick="getFolderNodeList('${curNodePath}')">
+          ${list[i]}\\
+          </a>`
       }
       curPath.innerHTML = html;
     }
@@ -118,6 +134,12 @@
         path = path.substr(0, path.length - '重复是不可能重复的这辈子都不可能重复的'.length);  
       }
       return path;
+    }
+
+    async function openFolder(path){
+      path = path.replace("\\\\","\\");
+      path = path.replace(/重复是不可能重复的这辈子都不可能重复的/g,"\\");
+      await MG.api.openFolder(path);
     }
   </script>
 </body>

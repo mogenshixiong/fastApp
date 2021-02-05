@@ -4,7 +4,7 @@ const fs = require('fs');
 function getFolderNode(path) {
   //获取一级目录
   let res = {
-    id: 'root',
+    id: path==''?'root':path,
     topic: path==''?'root':path,
     children: [],
   };

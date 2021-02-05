@@ -32,7 +32,10 @@ MG.api = {
   findCmsArticleById, //文章ID查询
   saveCmsArticleById, //新增&编辑cms文章
   deleteCmsArticleById, //删除cms文章
+
+  openFolder,
 };
+async function openFolder(path){return await MG.post('/openFolder',{path});}
 async function getFolderNodeList(path){return await MG.post('/getFolderNodeList',{path});}
 
 async function findCmsArticleByPage(){return await MG.post('/findCmsArticleByPage',{page, limit});}

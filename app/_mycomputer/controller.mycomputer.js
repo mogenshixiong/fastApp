@@ -1,7 +1,7 @@
 var bodyParser = require('body-parser');//接受传参的库
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const service = require("./service.mycomputer");
-const nmberUtils = require('../_base/utils/numberUtils');
+const folderUtils = require('../_base/utils/folderUtils');
 const resCode = require('../_base/const/responseCode');
 
 module.exports = function (app) {
@@ -19,5 +19,11 @@ module.exports = function (app) {
     result.data = service.getFolderNode( path );
 
     res.json({ code: resCode.SUCCESS, data: result});
+  });
+
+  app.post('/openFolder', urlencodedParser, async (req, res) => {
+    let path = req.body.path;
+    folderUtils.openFolder(path)
+    res.json({ code: resCode.SUCCESS });
   });
 }

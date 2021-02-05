@@ -18,3 +18,6 @@ global.cmsCarouses = {}; // cms轮播图
 global.cmsCategory = {}; //cms栏目
 global.cmsCategoryType = {} ; // cms栏目分类
 global.cmsArticle = {}; // cms 文章
+
+global.adminTemplate = 'admin/layuiAdmin'; // 后台UI模板
+global.cmsTemplate = 'cms/layuiSimpleNews'; // 后台UI模板

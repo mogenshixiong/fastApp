@@ -8,11 +8,6 @@ const md5 = require('md5-node');
 let dbName = 'base';
 
 module.exports = function (app) {
-
-    app.get('/userCenter', function (req, res) {
-        res.render('base/userCenter/index');
-    });
-    
     //查询所有用户
     app.post('/base/user/getUserInfo', urlencodedParser, async(req, res) => {
         var userId = req.session.data.id;

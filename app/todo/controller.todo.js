@@ -23,11 +23,6 @@ const log = require('../_base/utils/logUtils');
 
 module.exports = function (app) {
     
-    //提交/编辑表单页面跳转
-    app.get('/_layer_addTodo', function (req, res) {
-        res.render('base/index/_layer_addTodo');
-    });
-    
     //!新增待办
     app.post('/addToDo', urlencodedParser, (req, res) => {
         var db = new sqlite3.Database(sqliteDbPath);

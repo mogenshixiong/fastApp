@@ -3,7 +3,6 @@ module.exports = function (app) {
   
   require( "./_base/index_base")(app);// 加载核心配置
   require( "../config/userConfig.js")(app); //用户设置 //!此处应该优化为存储数据库。多用户
-  require( "./_base/pages/pages")(app);
 
   require( "../app/_user/route.user.js")(app); //加载用户模块
   require( "../app/_cms/route.cms.js")(app); //加载cms内容管理模块

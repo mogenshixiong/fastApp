@@ -30,8 +30,10 @@ module.exports = function (app) {
 
   //引入session 模块
   require("./session/session")(app);
+  
 
   // 设置拦截器
-  require("./intercept/intercept")(app);
+  require( "./intercept/intercept")(app);
+  require( "./intercept/pages")(app);
 
 }

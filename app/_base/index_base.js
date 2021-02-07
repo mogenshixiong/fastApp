@@ -26,4 +26,5 @@ module.exports = function (app) {
   
   require( "./intercept/pages")(app); // 统一页面管理
 
+  require( "./utils/emailUtils"); // 加载邮箱模块
 }

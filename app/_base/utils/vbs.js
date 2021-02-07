@@ -12,10 +12,11 @@ const  child_process  = require('child_process');
 const  exec = child_process.exec;
 
 //使用VBS脚本 调用系统警告弹窗
-function alert(content,title){
+function alert(content,title,fn){
     var shell = 'mshta "javascript:var sh=new ActiveXObject("WScript.Shell");'
-        +' sh.Popup("'+content+'", 10, "'+title+'", 64 );close()"'
-    exec(shell); 
+        +' sh.Popup("'+content+'", 10, "'+title+'", 64 );close()"';
+    
+    exec(shell);
 }
 
 module.exports.alert = alert;//使用VBS脚本 调用系统警告弹窗

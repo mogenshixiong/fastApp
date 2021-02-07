@@ -5,21 +5,25 @@ const path = require('path');
 var fs = require('fs');
 
 module.exports.check = function(){
-    var obj =  global.license ;
-    if( obj.license == md5(machineIdSync({original: true})+global.publicKey) ){ 
-        return true;
-    }else{
-        fs.writeFile(path.join( process.cwd(), "./注册码.txt"), machineIdSync({original: true}) , function (error) {
-            if (error) {
-                console.log(error);
-            } else {
-                
-            }
-            console.log("软件未授权，请联系作者获取授权许可。");
-            vbs.alert("软件未授权，请联系作者获取授权许可。","提示!");
-            return false;
-        })
-    }
+  if( global.license == md5(machineIdSync({original: true})+global.publicKey) ){ 
+    global.hasLicense = true;
+  }else{
+    fs.writeFile(path.join( process.cwd(), "./注册码.txt"), machineIdSync({original: true}) , function (error) {
+      if (error) {
+        console.log(error);
+        writeErrorLog( error );
+      } else {
+        
+      }
+      console.log("软件未授权，请联系作者获取授权许可。");
+      vbs.alert("软件未授权，部分功能将受到影响。请联系作者获取授权许可方可获取全部功能。","提示!");
+      // 具体需要如何限制，根据 global.hasLicense 自行添加逻辑
+      // 或者可 直接 抛出异常 终止服务
+      setTimeout(function(){
+        throw error;
+      },1000)
+    })
+  }
 }
 
 // console.log("操作系统："+process.platform);

@@ -83,7 +83,4 @@ module.exports = function (app) {
       res.redirect('/login');
     }
   });
-  app.get('*', function (req, res) {
-    res.render(global.adminTemplate+'/tips/404'); //404
-  });
 }

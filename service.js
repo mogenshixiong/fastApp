@@ -7,20 +7,20 @@ const {consoleWelcome} = require('./app/_base/tool/tool');
 
 try {
 
-    main(app);
+  main(app);
 
-    app.listen( global.config.port ,'0.0.0.0' , () => {
-        consoleWelcome();
-    });
-    
+  app.listen( global.config.port ,'0.0.0.0' , () => {
+    consoleWelcome();
+  });
+  
 } catch ( err ) {
-    let dev = false; //开启开发者模式
+  let dev = false; //开启开发者模式
 
-    if( dev ){
-        console.log(err);
-    }else {
-        //pkg打包后，未捕获异常将导致程序直接崩溃。
-        alert('系统错误',"错误");
-        writeErrorLog( err );
-    }
+  if( dev ){
+    console.log(err);
+  }else {
+    //pkg打包后，未捕获异常将导致程序直接崩溃。
+    alert('系统错误',"错误");
+    writeErrorLog( err );
+  }
 }

@@ -15,6 +15,9 @@ module.exports = function (app) {
   require( "../app/attendance/route.attendance.js")(app); // 考勤管理
   require( "../app/home/route.home.js")(app); // 考勤管理
 
+  app.get('*', function (req, res) {
+    res.render(global.adminTemplate+'/tips/404'); //404页面需要写到最后
+  });
   //开启事务
   // var db = new sqlite3.Database(db_path);
   // db.run("CREATE TABLE foo (id INT, txt TEXT)");

@@ -1,14 +1,10 @@
 
 const sqlite3 = require("sqlite3").verbose();
 const tool = require('../tool/tool'); 
-global.password = tool.getConfig('./config/password.json'); //私密配置
 
-global.nodemailerOptionsConfig = tool.getConfig('./config/nodemailerOptionsConfig.json'); // 邮件配置
-global.nodemailerOptionsConfig.auth.pass = global.password.ndemailderOptionPass  || ''; // 设置邮件授权码
-
-global.webSiteconfig = {}; // 网站设置
-
-global.config = {}; // config配置文件
+global.config = tool.getConfig('./config/config.json');// config配置文件
+global.password = tool.getConfig('./config/password.json'); //密码管理
+global.webSiteconfig = tool.getConfig('./config/webSiteConfig.json');  // 网站设置
 global.license = tool.getConfig('./config/license.json').license; // license配置文件
 global.hasLicense = false; // 是否取得了授权
 global.publicKey = 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAMt7'; //授权加密密钥

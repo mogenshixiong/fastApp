@@ -1,9 +1,0 @@
-{
-  "host": "smtp.qq.com",
-  "secureConnection": true,
-  "port": 465,
-  "secure": true,
-  "auth": {
-    "user": "mogenshixiong@qq.com"
-  }
-}

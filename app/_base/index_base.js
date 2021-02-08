@@ -10,10 +10,6 @@ module.exports = function (app) {
 
   require( "./license/index_license")(app); // 加载授权验证模块
 
-  // 加载config配置
-  global.config = tool.getConfig('./config/config.json');
-  global.webSiteconfig = tool.getConfig('./config/webSiteConfig.json'); 
-  
   tool.registerDrives(app); // 挂载所有盘符
 
   // 设置静态文件路径映射

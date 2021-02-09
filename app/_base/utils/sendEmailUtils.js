@@ -68,7 +68,7 @@ module.exports.sendMailAsync = sendMailAsync;
 
 // sendMailAsync({
 //   to: 'mogenshixiong@qq.com',
-//   subject: 'test',
+//   subject: 'mogenshixiong',
 //   text: '正文内容',
 //   html: '<strong>正文内容</strong>'
 // })
